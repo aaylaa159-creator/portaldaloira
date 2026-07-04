@@ -1,0 +1,46 @@
+name: Supabase heartbeat
+
+# Mantém o projeto Supabase (Free tier) ativo com leituras leves no banco.
+# Configure os secrets SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY em:
+# GitHub → Settings → Secrets and variables → Actions
+
+on:
+  schedule:
+    # Segunda e quinta, 12:00 UTC (margem segura abaixo dos 7 dias de inatividade)
+    - cron: '0 12 * * 1,4'
+  workflow_dispatch:
+
+concurrency:
+  group: supabase-heartbeat
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validar secrets
+        run: |
+          if [ -z "${{ secrets.SUPABASE_URL }}" ] || [ -z "${{ secrets.SUPABASE_PUBLISHABLE_KEY }}" ]; then
+            echo "Configure SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY nos secrets do repositório."
+            exit 1
+          fi
+
+      - name: Ping Supabase REST API (somente leitura)
+        run: |
+          set -euo pipefail
+
+          HTTP_CODE=$(curl -sS -o /tmp/supabase-ping.json -w "%{http_code}" \
+            "${{ secrets.SUPABASE_URL }}/rest/v1/categories?select=id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}")
+
+          echo "HTTP status: ${HTTP_CODE}"
+          cat /tmp/supabase-ping.json
+
+          if [ "${HTTP_CODE}" -lt 200 ] || [ "${HTTP_CODE}" -ge 300 ]; then
+            echo "Supabase heartbeat falhou."
+            exit 1
+          fi
+
+          echo "Supabase heartbeat OK."
