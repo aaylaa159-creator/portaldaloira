@@ -36,7 +36,7 @@ const NAV: { href: string; label: string; tooltip: string; exact?: boolean }[] =
   {
     href: '/admin/analytics',
     label: 'Acessos',
-    tooltip: 'Relatório de visualizações das matérias e integração com Google Analytics.',
+    tooltip: 'Relatório de visualizações das matérias publicadas no portal.',
   },
 ];
 
