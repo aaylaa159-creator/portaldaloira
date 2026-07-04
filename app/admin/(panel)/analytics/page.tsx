@@ -96,22 +96,79 @@ export default async function AdminAnalyticsPage() {
             </a>
           </div>
         ) : (
-          <div className="space-y-2 text-sm text-gray-600">
-            <p>Google Analytics ainda não configurado.</p>
-            <ol className="list-inside list-decimal space-y-1">
-              <li>
-                Crie uma propriedade em{' '}
-                <a href="https://analytics.google.com/" className="text-brand-600 hover:underline">
-                  analytics.google.com
-                </a>
-              </li>
-              <li>Copie o Measurement ID (formato G-XXXXXXXXXX)</li>
-              <li>
-                Adicione em <code className="rounded bg-gray-100 px-1">.env.local</code>:{' '}
-                <code>NEXT_PUBLIC_GA_MEASUREMENT_ID=G-...</code>
-              </li>
-              <li>Reinicie o servidor de desenvolvimento</li>
-            </ol>
+          <div className="space-y-4 text-sm text-gray-600">
+            <p>
+              O código do portal já está pronto para enviar pageviews ao GA4. Falta criar a
+              propriedade no Google e informar o Measurement ID aqui.
+            </p>
+
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-amber-900">
+              <p className="font-medium">O que já funciona sem o GA4</p>
+              <p className="mt-1">
+                As views acima vêm do banco do portal (Supabase), registradas a cada leitura de
+                matéria. O Google Analytics é complementar — traz visitantes, origem do tráfego,
+                dispositivos, tempo real etc.
+              </p>
+            </div>
+
+            <div>
+              <p className="mb-2 font-medium text-gray-900">Passo a passo (primeira vez)</p>
+              <ol className="list-inside list-decimal space-y-2">
+                <li>
+                  Acesse{' '}
+                  <a
+                    href="https://analytics.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-brand-600 hover:underline"
+                  >
+                    analytics.google.com
+                  </a>{' '}
+                  com a conta Google da redação.
+                </li>
+                <li>
+                  Clique em <strong>Administrar</strong> (ícone de engrenagem) →{' '}
+                  <strong>Criar</strong> → <strong>Conta</strong> (ex.: &quot;Portal da
+                  Loira&quot;).
+                </li>
+                <li>
+                  Crie uma <strong>Propriedade</strong> (ex.: &quot;Portal da Loira — Site&quot;) e
+                  escolha fuso horário Brasil e moeda BRL.
+                </li>
+                <li>
+                  Em <strong>Fluxos de dados</strong>, adicione um fluxo <strong>Web</strong> com a
+                  URL do site (produção ou <code className="rounded bg-gray-100 px-1">localhost</code>{' '}
+                  para testes locais).
+                </li>
+                <li>
+                  Copie o <strong>Measurement ID</strong> (formato{' '}
+                  <code className="rounded bg-gray-100 px-1">G-XXXXXXXXXX</code>) na tela do fluxo
+                  de dados.
+                </li>
+                <li>
+                  No arquivo <code className="rounded bg-gray-100 px-1">.env.local</code>, descomente
+                  e preencha:
+                  <pre className="mt-2 overflow-x-auto rounded-lg bg-gray-900 p-3 text-xs text-gray-100">
+                    NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+                  </pre>
+                </li>
+                <li>
+                  Na Vercel (produção):{' '}
+                  <strong>Settings → Environment Variables</strong> → adicione a mesma variável em
+                  Production e Preview.
+                </li>
+                <li>Reinicie <code className="rounded bg-gray-100 px-1">npm run dev</code>.</li>
+                <li>
+                  Confirme em GA4: <strong>Relatórios → Tempo real</strong> enquanto navega no site
+                  público.
+                </li>
+              </ol>
+            </div>
+
+            <p className="text-xs text-gray-500">
+              Quando configurado, esta seção mostrará o ID ativo e um atalho para o painel do
+              Google.
+            </p>
           </div>
         )}
       </section>
