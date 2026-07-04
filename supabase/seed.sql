@@ -1,6 +1,6 @@
 -- ============================================================================
 -- PORTAL DA LOIRA - CONTEUDO DE EXEMPLO (SEED)
--- Execute APOS o schema.sql. Conteudo ficticio apenas para desenvolvimento.
+-- Execute APOS o schema.sql. Conteudo ficticio; views_count inicia em 0 (visitas reais).
 -- ============================================================================
 
 -- Categorias (editorias)
@@ -46,7 +46,7 @@ values
     'Plenário da Assembleia durante a votação do pacote. Foto: Divulgação',
     (select id from a1), (select id from c_pol),
     array['assembleia', 'infraestrutura', 'investimentos'],
-    'published', now() - interval '2 hours', 15420, 'main'
+    'published', now() - interval '2 hours', 0, 'main'
   ),
   (
     'Prefeitura anuncia mutirão de limpeza e revitalização do centro histórico',
@@ -57,7 +57,7 @@ values
     'Centro histórico receberá revitalização completa. Foto: Arquivo',
     (select id from a2), (select id from c_cid),
     array['prefeitura', 'centro histórico', 'revitalização'],
-    'published', now() - interval '4 hours', 8930, 'secondary'
+    'published', now() - interval '4 hours', 0, 'secondary'
   ),
   (
     'Polícia Civil desarticula quadrilha especializada em furto de defensivos agrícolas',
@@ -68,7 +68,7 @@ values
     'Material apreendido durante a operação. Foto: Polícia Civil',
     (select id from a2), (select id from c_pcl),
     array['polícia civil', 'operação', 'agronegócio'],
-    'published', now() - interval '6 hours', 12750, 'secondary'
+    'published', now() - interval '6 hours', 0, 'secondary'
   ),
   (
     'Safra de soja bate recorde e movimenta economia dos municípios produtores',
@@ -79,7 +79,7 @@ values
     'Colheita da soja em fazenda do interior. Foto: Divulgação',
     (select id from a1), (select id from c_agr),
     array['soja', 'safra', 'agronegócio', 'economia'],
-    'published', now() - interval '8 hours', 6540, 'secondary'
+    'published', now() - interval '8 hours', 0, 'secondary'
   ),
   (
     'Time da capital garante vaga na final do estadual após virada histórica',
@@ -90,7 +90,7 @@ values
     'Comemoração do gol da classificação. Foto: Assessoria do clube',
     (select id from a2), (select id from c_esp),
     array['futebol', 'estadual', 'final'],
-    'published', now() - interval '12 hours', 9820, 'none'
+    'published', now() - interval '12 hours', 0, 'none'
   ),
   (
     'Festival de inverno anuncia atrações nacionais e espera 50 mil visitantes',
@@ -101,7 +101,7 @@ values
     'Palco principal da edição anterior do festival. Foto: Divulgação',
     (select id from a3), (select id from c_ent),
     array['festival', 'cultura', 'shows'],
-    'published', now() - interval '1 day', 4210, 'carousel'
+    'published', now() - interval '1 day', 0, 'carousel'
   ),
   (
     'Análise: o xadrez político por trás da disputa pela presidência da Câmara',
@@ -112,7 +112,7 @@ values
     'Plenário da Câmara Municipal. Foto: Arquivo',
     (select id from a3), (select id from c_pol),
     array['câmara', 'análise', 'eleições'],
-    'published', now() - interval '1 day 4 hours', 7340, 'carousel'
+    'published', now() - interval '1 day 4 hours', 0, 'carousel'
   ),
   (
     'Obras do novo hospital regional atingem 70% de execução',
@@ -123,7 +123,7 @@ values
     'Fachada do hospital em construção. Foto: Secretaria de Saúde',
     (select id from a2), (select id from c_cid),
     array['saúde', 'hospital', 'obras'],
-    'published', now() - interval '1 day 8 hours', 5670, 'none'
+    'published', now() - interval '1 day 8 hours', 0, 'none'
   ),
   (
     'Operação nas rodovias flagra 45 motoristas embriagados no fim de semana',
@@ -134,7 +134,7 @@ values
     'Blitz em rodovia estadual. Foto: PM',
     (select id from a2), (select id from c_pcl),
     array['trânsito', 'lei seca', 'fiscalização'],
-    'published', now() - interval '2 days', 8450, 'none'
+    'published', now() - interval '2 days', 0, 'none'
   ),
   (
     'Exportações do agronegócio crescem 18% e puxam balança comercial do estado',
@@ -145,7 +145,7 @@ values
     'Terminal de cargas durante embarque de grãos. Foto: Divulgação',
     (select id from a1), (select id from c_agr),
     array['exportações', 'agronegócio', 'economia'],
-    'published', now() - interval '2 days 6 hours', 3980, 'none'
+    'published', now() - interval '2 days 6 hours', 0, 'none'
   ),
   (
     'Corrida de rua reúne 5 mil atletas e movimenta domingo na capital',
@@ -156,7 +156,7 @@ values
     'Largada da corrida na praça central. Foto: Organização',
     (select id from a3), (select id from c_esp),
     array['corrida', 'atletismo', 'esporte'],
-    'published', now() - interval '3 days', 2890, 'none'
+    'published', now() - interval '3 days', 0, 'none'
   ),
   (
     'Cinema ao ar livre volta à praça com sessões gratuitas todo fim de semana',
@@ -167,7 +167,7 @@ values
     'Sessão de cinema na praça. Foto: Divulgação',
     (select id from a3), (select id from c_ent),
     array['cinema', 'cultura', 'lazer'],
-    'published', now() - interval '3 days 12 hours', 1950, 'none'
+    'published', now() - interval '3 days 12 hours', 0, 'none'
   )
 on conflict (slug) do nothing;
 

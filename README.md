@@ -18,7 +18,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX   # pageviews no site público (gtag)
-LOOKER_STUDIO_EMBED_URL=                     # URL de incorporação do relatório GA4 (ver README)
+NEXT_PUBLIC_GA4_PROPERTY_ID=344219037        # link Tempo real no painel /admin/analytics
 NEXT_PUBLIC_USE_DEV_ONLY=false               # true = pula Supabase em dev
 ```
 
@@ -31,6 +31,7 @@ Execute no **SQL Editor** do Supabase, nesta ordem:
 1. [`supabase/schema.sql`](supabase/schema.sql)
 2. [`supabase/seed.sql`](supabase/seed.sql) (opcional — conteúdo de exemplo)
 3. [`supabase/migrations/002_editorial_auth.sql`](supabase/migrations/002_editorial_auth.sql) — restringe escrita à equipe editorial
+4. [`supabase/migrations/003_reset_demo_views.sql`](supabase/migrations/003_reset_demo_views.sql) — zera views fictícias do seed (execute se já rodou o seed antigo)
 
 ### 2. Configurar autenticação
 
@@ -63,7 +64,7 @@ Na tabela `authors`, defina `user_id` com o UUID do usuário em **Authentication
 | **Editorias** | CRUD de categorias |
 | **Autores** | CRUD de jornalistas/colunistas |
 | **Banners** | Gerenciar espaços publicitários |
-| **Acessos** | Relatório GA4 (Looker Studio) + contador interno por matéria |
+| **Acessos** | Contador real de views por matéria + atalho GA4 Tempo real |
 
 ## Google Analytics
 
@@ -74,22 +75,11 @@ Na tabela `authors`, defina `user_id` com o UUID do usuário em **Authentication
 3. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID` no `.env.local` e na Vercel
 4. Confirme em **Relatórios → Tempo real** ao navegar no site
 
-### 2. Exibir métricas no painel `/admin/analytics` (Looker Studio)
+### 2. Painel `/admin/analytics`
 
-Sem Google Cloud — basta colar **1 URL** depois de montar o relatório:
-
-1. Abra [lookerstudio.google.com](https://lookerstudio.google.com) com a conta Google da redação
-2. **Criar → Relatório** → conecte a propriedade **Google Analytics** do portal
-3. Monte o painel (usuários, pageviews, páginas mais vistas, etc.)
-4. **Arquivo → Incorporar relatório** (ou compartilhar → Incorporar)
-5. Copie a URL que começa com `https://lookerstudio.google.com/embed/...`
-6. Configure:
-   ```env
-   LOOKER_STUDIO_EMBED_URL=https://lookerstudio.google.com/embed/reporting/SEU-ID/page/SEU-ID
-   ```
-7. Adicione a mesma variável na Vercel → **Settings → Environment Variables** → redeploy
-
-O relatório aparece em `/admin/analytics`. O contador interno por matéria (Supabase) continua disponível na seção recolhível abaixo.
+- **Contador interno (Supabase):** views reais por matéria, atualiza na hora.
+- **Botão GA4 Tempo real:** abre o Google Analytics para visitas atuais.
+- Configure `NEXT_PUBLIC_GA4_PROPERTY_ID` (número da propriedade GA4) para o link direto.
 
 ## Estrutura do banco
 
