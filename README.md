@@ -17,7 +17,11 @@ Abra [http://localhost:3000](http://localhost:3000).
 NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
-NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX   # opcional — Google Analytics 4
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX   # pageviews no site público (gtag)
+
+# Google Analytics Data API (painel /admin/analytics — somente servidor)
+GA4_PROPERTY_ID=123456789                    # ID numérico da propriedade GA4 (Admin → Configurações)
+GA_SERVICE_KEY_BASE64=                       # JSON da conta de serviço em Base64 (ver README)
 NEXT_PUBLIC_USE_DEV_ONLY=false               # true = pula Supabase em dev
 ```
 
@@ -62,15 +66,37 @@ Na tabela `authors`, defina `user_id` com o UUID do usuário em **Authentication
 | **Editorias** | CRUD de categorias |
 | **Autores** | CRUD de jornalistas/colunistas |
 | **Banners** | Gerenciar espaços publicitários |
-| **Acessos** | Views por matéria + link para Google Analytics 4 |
+| **Acessos** | Métricas GA4 (usuários, sessões, pageviews) + contador interno por matéria |
 
 ## Google Analytics
 
+### 1. Enviar pageviews do site (já integrado)
+
 1. Crie uma propriedade GA4 em [analytics.google.com](https://analytics.google.com)
 2. Copie o **Measurement ID** (`G-XXXXXXXXXX`)
-3. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID` no `.env.local`
-4. Reinicie `npm run dev`
-5. Confirme pageviews em **Relatórios → Tempo real** no GA4
+3. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID` no `.env.local` e na Vercel
+4. Confirme em **Relatórios → Tempo real** ao navegar no site
+
+### 2. Exibir métricas no painel `/admin/analytics`
+
+O painel lê dados via **Google Analytics Data API** (conta de serviço):
+
+1. [Google Cloud Console](https://console.cloud.google.com/) → ative **Google Analytics Data API**
+2. Crie uma **conta de serviço** e baixe a chave JSON
+3. GA4 → **Administrar → Acesso à propriedade** → adicione o e-mail da conta de serviço como **Leitor**
+4. Copie o **ID da propriedade** (número, ex. `512345678`) em Configurações da propriedade
+5. Converta o JSON em Base64 e configure:
+   ```env
+   GA4_PROPERTY_ID=512345678
+   GA_SERVICE_KEY_BASE64=...
+   ```
+6. Adicione as mesmas variáveis na Vercel → **Settings → Environment Variables**
+7. Faça redeploy
+
+PowerShell (converter chave):
+```powershell
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\caminho\ga4-key.json"))
+```
 
 ## Estrutura do banco
 
