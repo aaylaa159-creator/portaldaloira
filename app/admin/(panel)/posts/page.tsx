@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { FieldLabel } from '@/components/admin/FieldLabel';
 import { listAllPosts } from '@/lib/data/admin/posts';
 import { formatDate } from '@/lib/format';
+import { isPostPubliclyVisible } from '@/lib/posts/publication';
 
 export default async function AdminPostsPage() {
   const posts = await listAllPosts();
@@ -76,7 +77,7 @@ export default async function AdminPostsPage() {
                     >
                       Editar
                     </Link>
-                    {post.status === 'published' ? (
+                    {isPostPubliclyVisible(post.status, post.published_at) ? (
                       <Link
                         href={`/${post.category.slug}/${post.slug}`}
                         target="_blank"

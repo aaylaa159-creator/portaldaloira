@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { createClient } from '@/lib/supabase/server';
 import { requireEditorialUser } from '@/lib/auth/editorial';
 import { slugify } from '@/lib/slug';
+import { normalizePostPublication } from '@/lib/posts/publication';
 import type { FeaturedPosition, PostStatus } from '@/lib/types';
 
 export interface PostFormInput {
@@ -52,6 +53,7 @@ export async function createPost(input: PostFormInput) {
   const supabase = await createClient();
 
   const slug = input.slug || slugify(input.title);
+  const publication = normalizePostPublication(input.status, input.published_at);
   const { data, error } = await supabase
     .from('posts')
     .insert({
@@ -64,9 +66,9 @@ export async function createPost(input: PostFormInput) {
       author_id: input.author_id,
       category_id: input.category_id,
       tags: parseTags(input.tags),
-      status: input.status,
+      status: publication.status,
       featured_position: input.featured_position,
-      published_at: input.published_at,
+      published_at: publication.published_at,
     })
     .select('id, slug, category:categories!inner ( slug )')
     .single();
@@ -84,6 +86,7 @@ export async function updatePost(id: string, input: PostFormInput) {
   await requireEditorialUser();
   const supabase = await createClient();
 
+  const publication = normalizePostPublication(input.status, input.published_at);
   const { data, error } = await supabase
     .from('posts')
     .update({
@@ -96,9 +99,9 @@ export async function updatePost(id: string, input: PostFormInput) {
       author_id: input.author_id,
       category_id: input.category_id,
       tags: parseTags(input.tags),
-      status: input.status,
+      status: publication.status,
       featured_position: input.featured_position,
-      published_at: input.published_at,
+      published_at: publication.published_at,
     })
     .eq('id', id)
     .select('slug, category:categories!inner ( slug )')
