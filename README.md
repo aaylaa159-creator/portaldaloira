@@ -31,7 +31,14 @@ Execute no **SQL Editor** do Supabase, nesta ordem:
 1. [`supabase/schema.sql`](supabase/schema.sql)
 2. [`supabase/seed.sql`](supabase/seed.sql) (opcional — conteúdo de exemplo)
 3. [`supabase/migrations/002_editorial_auth.sql`](supabase/migrations/002_editorial_auth.sql) — restringe escrita à equipe editorial
-4. [`supabase/migrations/003_reset_demo_views.sql`](supabase/migrations/003_reset_demo_views.sql) — zera views fictícias do seed (execute se já rodou o seed antigo)
+4. [`supabase/migrations/004_authors_public_columns.sql`](supabase/migrations/004_authors_public_columns.sql) — oculta `email` e `user_id` dos autores para visitantes
+5. [`supabase/migrations/003_reset_demo_views.sql`](supabase/migrations/003_reset_demo_views.sql) — zera views fictícias do seed (execute se já rodou o seed antigo)
+
+Ou aplique 002 + 004 de uma vez (requer senha do banco no `.env.local`):
+
+```bash
+npm run db:apply-security
+```
 
 ### 2. Configurar autenticação
 

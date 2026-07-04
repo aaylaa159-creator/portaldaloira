@@ -1,26 +1,72 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { FieldLabel } from '@/components/admin/FieldLabel';
 import { createClient } from '@/lib/supabase/client';
 
+/** Limpa valores que o gerenciador de senhas do navegador injeta no DOM. */
+function wipeInput(el: HTMLInputElement | null) {
+  if (!el) return;
+  el.value = '';
+  el.setAttribute('readonly', 'readonly');
+}
+
 export function AdminLoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const fieldId = useId().replace(/:/g, '');
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const [mounted, setMounted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const showTimer = window.setTimeout(() => setMounted(true), 200);
+    return () => clearTimeout(showTimer);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const wipeAll = () => {
+      wipeInput(emailRef.current);
+      wipeInput(passwordRef.current);
+    };
+
+    wipeAll();
+    const timers = [0, 50, 150, 400, 800].map((ms) => window.setTimeout(wipeAll, ms));
+    return () => timers.forEach(clearTimeout);
+  }, [mounted]);
+
+  function enableInput(event: React.FocusEvent<HTMLInputElement>) {
+    event.currentTarget.removeAttribute('readonly');
+  }
+
+  function clearFields() {
+    wipeInput(emailRef.current);
+    wipeInput(passwordRef.current);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    const submittedEmail = emailRef.current?.value.trim() ?? '';
+    const submittedPassword = passwordRef.current?.value ?? '';
+
+    if (!submittedEmail || !submittedPassword) {
+      setError('Informe e-mail e senha.');
+      return;
+    }
+
+    clearFields();
     setLoading(true);
 
     const supabase = createClient();
     const { data, error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: submittedEmail,
+      password: submittedPassword,
     });
 
     if (signInError) {
@@ -41,41 +87,73 @@ export function AdminLoginForm() {
     router.refresh();
   }
 
+  if (!mounted) {
+    return (
+      <div className="flex w-full max-w-sm flex-col gap-4" aria-hidden="true">
+        <div className="h-[4.25rem] animate-pulse rounded-lg bg-gray-100" />
+        <div className="h-[4.25rem] animate-pulse rounded-lg bg-gray-100" />
+        <div className="h-10 animate-pulse rounded-lg bg-gray-100" />
+      </div>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-4">
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full max-w-sm flex-col gap-4"
+      autoComplete="off"
+      data-lpignore="true"
+      data-1p-ignore
+    >
       <div>
         <FieldLabel
-          htmlFor="email"
+          htmlFor={`${fieldId}-email`}
           tooltip="E-mail da conta editorial cadastrada no Supabase com permissão de administrador ou editor."
           className="text-gray-700"
         >
           E-mail
         </FieldLabel>
         <input
-          id="email"
-          type="email"
+          ref={emailRef}
+          id={`${fieldId}-email`}
+          name={`${fieldId}-email`}
+          type="text"
+          inputMode="email"
           required
-          autoComplete="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          readOnly
+          defaultValue=""
+          data-lpignore="true"
+          data-1p-ignore
+          data-bwignore
+          onFocus={enableInput}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none focus:ring-1 focus:ring-brand-600"
         />
       </div>
       <div>
         <FieldLabel
-          htmlFor="password"
+          htmlFor={`${fieldId}-password`}
           tooltip="Senha da conta editorial. Apenas usuários com perfil admin ou editor conseguem acessar o painel."
           className="text-gray-700"
         >
           Senha
         </FieldLabel>
         <input
-          id="password"
+          ref={passwordRef}
+          id={`${fieldId}-password`}
+          name={`${fieldId}-password`}
           type="password"
           required
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="off"
+          readOnly
+          defaultValue=""
+          data-lpignore="true"
+          data-1p-ignore
+          data-bwignore
+          onFocus={enableInput}
           className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none focus:ring-1 focus:ring-brand-600"
         />
       </div>
@@ -91,6 +169,10 @@ export function AdminLoginForm() {
       >
         {loading ? 'Entrando…' : 'Entrar'}
       </button>
+      <p className="text-center text-xs leading-relaxed text-gray-500">
+        Digite e-mail e senha a cada acesso. Remova credenciais salvas do navegador se o Chrome
+        preencher sozinho (ícone de chave na barra de endereço).
+      </p>
     </form>
   );
 }
