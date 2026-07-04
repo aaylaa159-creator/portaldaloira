@@ -11,7 +11,7 @@ const SUMMARY_SELECT = `
 const FULL_SELECT = `
   *,
   category:categories!inner ( id, name, slug, color_code, display_order ),
-  author:authors!inner ( id, name, slug, avatar_url, bio, role, instagram, twitter, email )
+  author:authors!inner ( id, name, slug, avatar_url, bio, role, instagram, twitter )
 `;
 
 /** Manchete principal da Home. */

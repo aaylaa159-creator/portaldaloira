@@ -50,7 +50,7 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
 
   async function handleLogout() {
     const supabase = createClient();
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: 'global' });
     router.push('/admin/login');
     router.refresh();
   }
