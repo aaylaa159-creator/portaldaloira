@@ -175,9 +175,9 @@ export default async function PostPage({ params }: PostPageProps) {
               <RichContent html={post.content} />
             </div>
 
-            {post.tags.length > 0 ? (
+            {(post.tags ?? []).length > 0 ? (
               <ul className="mt-8 flex flex-wrap gap-2" aria-label="Tags">
-                {post.tags.map((tag) => (
+                {(post.tags ?? []).map((tag) => (
                   <li
                     key={tag}
                     className="rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700"

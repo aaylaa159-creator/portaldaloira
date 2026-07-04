@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { slugify } from '@/lib/slug';
+import { normalizePostPublication } from '@/lib/posts/publication';
 import { FieldLabel } from '@/components/admin/FieldLabel';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import {
@@ -55,6 +56,7 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
   );
 
   function buildInput(): PostFormInput {
+    const publication = normalizePostPublication(status, publishedAt);
     return {
       title,
       subtitle,
@@ -65,9 +67,9 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
       author_id: authorId,
       category_id: categoryId,
       tags,
-      status,
+      status: publication.status,
       featured_position: featuredPosition,
-      published_at: new Date(publishedAt).toISOString(),
+      published_at: publication.published_at,
     };
   }
 

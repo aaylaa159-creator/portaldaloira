@@ -1,17 +1,22 @@
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
+
+const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: [
+    'p', 'b', 'i', 'em', 'strong', 'a', 'h2', 'h3',
+    'ul', 'ol', 'li', 'img', 'blockquote', 'figure', 'figcaption', 'br',
+  ],
+  allowedAttributes: {
+    a: ['href', 'target', 'rel'],
+    img: ['src', 'alt'],
+  },
+};
 
 /**
  * Higieniza o HTML vindo do CMS antes de renderizar (anti-XSS).
- * Lista de permissões estrita conforme política de segurança do projeto.
+ * Usa sanitize-html (sem jsdom) para compatibilidade com Vercel/serverless.
  */
 export function sanitizeContent(html: string): string {
-  return DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: [
-      'p', 'b', 'i', 'em', 'strong', 'a', 'h2', 'h3',
-      'ul', 'ol', 'li', 'img', 'blockquote', 'figure', 'figcaption', 'br',
-    ],
-    ALLOWED_ATTR: ['href', 'src', 'alt', 'target', 'rel'],
-  });
+  return sanitizeHtml(html, SANITIZE_OPTIONS);
 }
 
 /**
