@@ -1,26 +1,58 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1c1524;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-archivo);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Roxo institucional (extraido do logo) */
+  --color-brand-50: #f7f0fc;
+  --color-brand-100: #ecdcf8;
+  --color-brand-200: #dbbcf1;
+  --color-brand-300: #c290e6;
+  --color-brand-400: #a55cd6;
+  --color-brand-500: #8b34c4;
+  --color-brand-600: #7c22b8;
+  --color-brand-700: #641d92;
+  --color-brand-800: #4c1d7a;
+  --color-brand-900: #3b1660;
+  --color-brand-950: #250b40;
+
+  /* Laranja de destaque (extraido do logo) */
+  --color-accent-50: #fff5ed;
+  --color-accent-100: #ffe8d5;
+  --color-accent-200: #fed0aa;
+  --color-accent-300: #fdb274;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2470a;
+  --color-accent-800: #9a3a10;
+  --color-accent-900: #7c3211;
+
+  /* Dourado do cabelo (detalhes) */
+  --color-gold-300: #fde047;
+  --color-gold-400: #facc15;
+  --color-gold-500: #f59e0b;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.admin-logout-btn {
+  cursor: pointer;
+  background-color: var(--color-brand-600);
+}
+
+.admin-logout-btn:hover {
+  background-color: var(--color-accent-500);
 }

@@ -1,10 +1,10 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { getEditorialRoleFromClaims } from '@/lib/auth/editorial';
 
 /**
  * Atualiza a sessão do Supabase a cada requisição (renova tokens expirados)
- * e propaga os cookies atualizados para os Server Components e o navegador.
- * Chamado pelo proxy.ts na raiz do projeto.
+ * e protege rotas /admin/* para a equipe editorial.
  */
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -25,8 +25,6 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options)
           );
-          // Headers anti-cache: impedem que CDNs sirvam a sessão de um
-          // usuário para outro quando os cookies de auth são gravados.
           Object.entries(headers).forEach(([key, value]) =>
             supabaseResponse.headers.set(key, value)
           );
@@ -35,9 +33,30 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // Não execute lógica entre createServerClient e getClaims:
-  // isso pode causar bugs difíceis de depurar com logout aleatório.
-  await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+  const claims = data?.claims as Record<string, unknown> | undefined;
+  const role = getEditorialRoleFromClaims(claims);
+  const isLoggedIn = Boolean(claims?.sub);
+  const isEditorial = Boolean(role);
+
+  const { pathname } = request.nextUrl;
+  const isLoginPage = pathname === '/admin/login';
+  const isAdminRoute = pathname.startsWith('/admin');
+
+  if (isAdminRoute) {
+    if (isLoginPage) {
+      if (isEditorial) {
+        const url = request.nextUrl.clone();
+        url.pathname = '/admin';
+        return NextResponse.redirect(url);
+      }
+    } else if (!isLoggedIn || !isEditorial) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/admin/login';
+      url.searchParams.set('redirect', pathname);
+      return NextResponse.redirect(url);
+    }
+  }
 
   return supabaseResponse;
 }

@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portal da Loira
 
-## Getting Started
+Portal de notícias regional construído com Next.js 16, TypeScript, Tailwind CSS v4 e Supabase.
 
-First, run the development server:
+## Desenvolvimento local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Variáveis de ambiente (`.env.local`)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX   # opcional — Google Analytics 4
+NEXT_PUBLIC_USE_DEV_ONLY=false               # true = pula Supabase em dev
+```
 
-## Learn More
+## Painel da redação (`/admin`)
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Aplicar migrations no Supabase
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Execute no **SQL Editor** do Supabase, nesta ordem:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. [`supabase/schema.sql`](supabase/schema.sql)
+2. [`supabase/seed.sql`](supabase/seed.sql) (opcional — conteúdo de exemplo)
+3. [`supabase/migrations/002_editorial_auth.sql`](supabase/migrations/002_editorial_auth.sql) — restringe escrita à equipe editorial
 
-## Deploy on Vercel
+### 2. Configurar autenticação
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Authentication → Providers:** habilite **Email**, desabilite **Sign ups** públicos
+2. **Authentication → Users → Add user:** crie contas para a redação (e-mail + senha)
+3. Em cada usuário, edite **Raw App Meta Data:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```json
+{ "role": "editor" }
+```
+
+ou `"admin"` para administradores.
+
+Somente usuários com `role` `editor` ou `admin` em `app_metadata` acessam `/admin`.
+
+### 3. Vincular autor ao login (opcional)
+
+Na tabela `authors`, defina `user_id` com o UUID do usuário em **Authentication → Users**. Assim a matéria pode ser assinada automaticamente pelo jornalista logado (evolução futura).
+
+### 4. Acessar o painel
+
+- URL: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+- Após login: dashboard, notícias, editorias, autores, banners e relatório de acessos
+
+### Funcionalidades do painel
+
+| Seção | O que faz |
+|-------|-----------|
+| **Notícias** | Criar, editar, publicar, rascunho, upload de capa |
+| **Editorias** | CRUD de categorias |
+| **Autores** | CRUD de jornalistas/colunistas |
+| **Banners** | Gerenciar espaços publicitários |
+| **Acessos** | Views por matéria + link para Google Analytics 4 |
+
+## Google Analytics
+
+1. Crie uma propriedade GA4 em [analytics.google.com](https://analytics.google.com)
+2. Copie o **Measurement ID** (`G-XXXXXXXXXX`)
+3. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID` no `.env.local`
+4. Reinicie `npm run dev`
+5. Confirme pageviews em **Relatórios → Tempo real** no GA4
+
+## Estrutura do banco
+
+- `categories` — editorias
+- `authors` — autores (com `user_id` opcional para login)
+- `posts` — notícias (`status`: draft | published | scheduled)
+- `ad_banners` — publicidade
+- Storage `news-media` — imagens de capas e avatares
+
+## Deploy
+
+Configure as mesmas variáveis de ambiente na plataforma de hospedagem (Vercel, etc.) e execute as migrations no Supabase de produção.
