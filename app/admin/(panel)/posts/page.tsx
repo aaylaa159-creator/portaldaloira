@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { listAllPosts } from '@/lib/data/admin/posts';
 import { formatDate } from '@/lib/format';
 
@@ -21,12 +22,36 @@ export default async function AdminPostsPage() {
         <table className="w-full text-left text-sm">
           <thead className="border-b border-gray-200 bg-gray-50 text-xs uppercase text-gray-500">
             <tr>
-              <th className="px-4 py-3">Título</th>
-              <th className="hidden px-4 py-3 md:table-cell">Editoria</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="hidden px-4 py-3 sm:table-cell">Views</th>
-              <th className="hidden px-4 py-3 lg:table-cell">Atualizado</th>
-              <th className="px-4 py-3">Ações</th>
+              <th className="px-4 py-3">
+                <FieldLabel inline tooltip="Manchete da matéria cadastrada no painel.">
+                  Título
+                </FieldLabel>
+              </th>
+              <th className="hidden px-4 py-3 md:table-cell">
+                <FieldLabel inline tooltip="Editoria (categoria) em que a matéria está publicada.">
+                  Editoria
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3">
+                <FieldLabel inline tooltip="Rascunho, publicado ou agendado — define se a matéria aparece no site.">
+                  Status
+                </FieldLabel>
+              </th>
+              <th className="hidden px-4 py-3 sm:table-cell">
+                <FieldLabel inline tooltip="Total de visualizações registradas pelo portal para esta matéria.">
+                  Views
+                </FieldLabel>
+              </th>
+              <th className="hidden px-4 py-3 lg:table-cell">
+                <FieldLabel inline tooltip="Data da última alteração salva no painel.">
+                  Atualizado
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3">
+                <FieldLabel inline tooltip="Editar no painel ou abrir a matéria publicada no site.">
+                  Ações
+                </FieldLabel>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">

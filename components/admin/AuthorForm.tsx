@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { slugify } from '@/lib/slug';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import {
   createAuthor,
@@ -75,7 +76,9 @@ export function AuthorForm({ author }: AuthorFormProps) {
   return (
     <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
       <div>
-        <label className="mb-1 block text-sm font-medium">Nome</label>
+        <FieldLabel tooltip="Nome completo do autor exibido nas matérias, na página de perfil e nos créditos de foto.">
+          Nome
+        </FieldLabel>
         <input
           required
           value={name}
@@ -87,11 +90,15 @@ export function AuthorForm({ author }: AuthorFormProps) {
         />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Slug</label>
+        <FieldLabel tooltip="Identificador na URL da página do autor (ex: /autor/maria-santos). Gerado automaticamente a partir do nome.">
+          Slug
+        </FieldLabel>
         <input required value={slug} onChange={(e) => setSlug(e.target.value)} className={inputClass} />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Função</label>
+        <FieldLabel tooltip="Define como o autor é apresentado no site: jornalista (padrão), colunista (opinião) ou editor (equipe editorial).">
+          Função
+        </FieldLabel>
         <select value={role} onChange={(e) => setRole(e.target.value as AuthorRole)} className={inputClass}>
           <option value="journalist">Jornalista</option>
           <option value="columnist">Colunista</option>
@@ -99,17 +106,29 @@ export function AuthorForm({ author }: AuthorFormProps) {
         </select>
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Bio</label>
+        <FieldLabel tooltip="Texto curto sobre o autor, exibido na página de perfil. Descreva experiência, especialidade ou trajetória.">
+          Bio
+        </FieldLabel>
         <textarea value={bio} onChange={(e) => setBio(e.target.value)} rows={3} className={inputClass} />
       </div>
-      <ImageUpload value={avatarUrl} onChange={setAvatarUrl} folder="avatars" label="Foto" />
+      <ImageUpload
+        value={avatarUrl}
+        onChange={setAvatarUrl}
+        folder="avatars"
+        label="Foto"
+        tooltip="Foto de perfil exibida ao lado do nome nas matérias e na página do autor. Recomendado: imagem quadrada, rosto visível."
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm font-medium">Instagram</label>
+          <FieldLabel tooltip="Usuário ou URL do Instagram. Aparece como link social na página do autor, se preenchido.">
+            Instagram
+          </FieldLabel>
           <input value={instagram} onChange={(e) => setInstagram(e.target.value)} className={inputClass} />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">E-mail</label>
+          <FieldLabel tooltip="E-mail de contato público opcional. Pode ser exibido na página do autor para leitores entrarem em contato.">
+            E-mail
+          </FieldLabel>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} />
         </div>
       </div>

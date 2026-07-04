@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { createClient } from '@/lib/supabase/client';
 
 export function AdminLoginForm() {
@@ -43,9 +44,13 @@ export function AdminLoginForm() {
   return (
     <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-4">
       <div>
-        <label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-700">
+        <FieldLabel
+          htmlFor="email"
+          tooltip="E-mail da conta editorial cadastrada no Supabase com permissão de administrador ou editor."
+          className="text-gray-700"
+        >
           E-mail
-        </label>
+        </FieldLabel>
         <input
           id="email"
           type="email"
@@ -57,9 +62,13 @@ export function AdminLoginForm() {
         />
       </div>
       <div>
-        <label htmlFor="password" className="mb-1 block text-sm font-medium text-gray-700">
+        <FieldLabel
+          htmlFor="password"
+          tooltip="Senha da conta editorial. Apenas usuários com perfil admin ou editor conseguem acessar o painel."
+          className="text-gray-700"
+        >
           Senha
-        </label>
+        </FieldLabel>
         <input
           id="password"
           type="password"

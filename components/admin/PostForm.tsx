@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { slugify } from '@/lib/slug';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import {
   createPost,
@@ -111,7 +112,9 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
     <form onSubmit={handleSubmit} className="mx-auto max-w-3xl space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label className="mb-1 block text-sm font-medium">Título</label>
+          <FieldLabel tooltip="Manchete principal da notícia. Aparece no site, na home, nos compartilhamentos e nos resultados de busca.">
+            Título
+          </FieldLabel>
           <input
             required
             value={title}
@@ -123,29 +126,44 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
           />
         </div>
         <div className="sm:col-span-2">
-          <label className="mb-1 block text-sm font-medium">Subtítulo</label>
+          <FieldLabel tooltip="Linha de apoio exibida abaixo do título. Opcional, mas recomendada para dar mais contexto ao leitor.">
+            Subtítulo
+          </FieldLabel>
           <input value={subtitle} onChange={(e) => setSubtitle(e.target.value)} className={inputClass} />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">Slug (URL)</label>
+          <FieldLabel tooltip="Parte final do endereço da matéria (ex: /politica/nome-da-noticia). Gerado automaticamente a partir do título; edite apenas se precisar de uma URL específica.">
+            Slug (URL)
+          </FieldLabel>
           <input required value={slug} onChange={(e) => setSlug(e.target.value)} className={inputClass} />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">Tags (vírgula)</label>
+          <FieldLabel tooltip="Palavras-chave separadas por vírgula (ex: eleições, câmara, vereador). Ajudam na organização interna e no SEO da matéria.">
+            Tags (vírgula)
+          </FieldLabel>
           <input value={tags} onChange={(e) => setTags(e.target.value)} className={inputClass} />
         </div>
       </div>
 
-      <ImageUpload value={coverImage} onChange={setCoverImage} label="Capa" />
+      <ImageUpload
+        value={coverImage}
+        onChange={setCoverImage}
+        label="Capa"
+        tooltip="Imagem principal obrigatória da matéria. Aparece na listagem, na home, na página da notícia e ao compartilhar em redes sociais. Use JPG, PNG ou WebP (máx. 2 MB)."
+      />
 
       <div>
-        <label className="mb-1 block text-sm font-medium">Legenda da capa</label>
+        <FieldLabel tooltip="Crédito ou descrição exibida abaixo da foto de capa na página da notícia (ex: Foto: João Silva / Agência).">
+          Legenda da capa
+        </FieldLabel>
         <input value={coverCaption} onChange={(e) => setCoverCaption(e.target.value)} className={inputClass} />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm font-medium">Editoria</label>
+          <FieldLabel tooltip="Categoria editorial onde a matéria será publicada. Define o menu, a cor do badge e a URL base (ex: /politica/...).">
+            Editoria
+          </FieldLabel>
           <select
             required
             value={categoryId}
@@ -160,7 +178,9 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">Autor</label>
+          <FieldLabel tooltip="Jornalista ou colunista creditado na matéria. O nome e a foto aparecem no topo e no rodapé da notícia.">
+            Autor
+          </FieldLabel>
           <select
             required
             value={authorId}
@@ -175,7 +195,9 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">Status</label>
+          <FieldLabel tooltip="Rascunho: invisível no site. Publicado: visível imediatamente. Agendado: só aparece após a data de publicação definida abaixo.">
+            Status
+          </FieldLabel>
           <select value={status} onChange={(e) => setStatus(e.target.value as PostStatus)} className={inputClass}>
             <option value="draft">Rascunho</option>
             <option value="published">Publicado</option>
@@ -183,7 +205,9 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium">Destaque na Home</label>
+          <FieldLabel tooltip="Posição especial na página inicial. Manchete: destaque principal. Secundário: bloco ao lado. Carrossel: faixa de opinião/destaques. Use 'Nenhum' para matérias comuns.">
+            Destaque na Home
+          </FieldLabel>
           <select
             value={featuredPosition}
             onChange={(e) => setFeaturedPosition(e.target.value as FeaturedPosition)}
@@ -196,7 +220,9 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label className="mb-1 block text-sm font-medium">Data de publicação</label>
+          <FieldLabel tooltip="Data e hora exibidas no site e usadas para ordenar as matérias. Para agendar, escolha status 'Agendado' e defina uma data futura.">
+            Data de publicação
+          </FieldLabel>
           <input
             type="datetime-local"
             value={publishedAt}
@@ -207,7 +233,9 @@ export function PostForm({ categories, authors, post }: PostFormProps) {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium">Conteúdo (HTML)</label>
+        <FieldLabel tooltip="Corpo da matéria em HTML. Use parágrafos (&lt;p&gt;), títulos (&lt;h2&gt;, &lt;h3&gt;), listas e links. Anúncios são inseridos automaticamente após o 3º e 7º parágrafos.">
+          Conteúdo (HTML)
+        </FieldLabel>
         <textarea
           required
           rows={16}

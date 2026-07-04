@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { listAllBanners } from '@/lib/data/admin/banners';
 
 export default async function AdminBannersPage() {
@@ -19,10 +20,26 @@ export default async function AdminBannersPage() {
         <table className="w-full text-sm">
           <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
             <tr>
-              <th className="px-4 py-3 text-left">Posição</th>
-              <th className="px-4 py-3 text-left">Tipo</th>
-              <th className="px-4 py-3 text-left">Ativo</th>
-              <th className="px-4 py-3 text-left">Ações</th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Espaço do site onde o anúncio é exibido (topo, sidebar, conteúdo, popup).">
+                  Posição
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Formato do anúncio: imagem com link ou código script (AdSense, etc.).">
+                  Tipo
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Indica se o banner está sendo exibido no site neste momento.">
+                  Ativo
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Editar ou excluir o banner selecionado.">
+                  Ações
+                </FieldLabel>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y">

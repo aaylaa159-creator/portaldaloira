@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { FieldLabel } from '@/components/admin/FieldLabel';
+import { FieldTooltip } from '@/components/admin/FieldTooltip';
 import { ImageUpload } from '@/components/admin/ImageUpload';
 import {
   createBanner,
@@ -82,7 +84,9 @@ export function BannerForm({ banner }: BannerFormProps) {
   return (
     <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
       <div>
-        <label className="mb-1 block text-sm font-medium">Posição</label>
+        <FieldLabel tooltip="Local onde o anúncio aparece no site: topo (728×90), sidebar (300×250), dentro do texto da matéria ou popup sobre a página.">
+          Posição
+        </FieldLabel>
         <select
           value={placement}
           onChange={(e) => setPlacement(e.target.value as AdPlacement)}
@@ -96,7 +100,9 @@ export function BannerForm({ banner }: BannerFormProps) {
         </select>
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Tipo</label>
+        <FieldLabel tooltip="Imagem: banner estático com link ao clicar. Script: código HTML/JS de redes de anúncio (Google AdSense, etc.) injetado no espaço reservado.">
+          Tipo
+        </FieldLabel>
         <select value={type} onChange={(e) => setType(e.target.value as AdType)} className={inputClass}>
           <option value="image">Imagem</option>
           <option value="script">Script</option>
@@ -104,15 +110,25 @@ export function BannerForm({ banner }: BannerFormProps) {
       </div>
       {type === 'image' ? (
         <>
-          <ImageUpload value={imageUrl} onChange={setImageUrl} folder="banners" label="Imagem do banner" />
+          <ImageUpload
+            value={imageUrl}
+            onChange={setImageUrl}
+            folder="banners"
+            label="Imagem do banner"
+            tooltip="Arquivo visual do anúncio. Respeite as dimensões do espaço escolhido (ex: 728×90 para topo, 300×250 para sidebar)."
+          />
           <div>
-            <label className="mb-1 block text-sm font-medium">URL de destino</label>
+            <FieldLabel tooltip="Endereço para onde o leitor é direcionado ao clicar no banner. Deve ser uma URL completa (https://...).">
+              URL de destino
+            </FieldLabel>
             <input type="url" value={targetUrl} onChange={(e) => setTargetUrl(e.target.value)} className={inputClass} />
           </div>
         </>
       ) : (
         <div>
-          <label className="mb-1 block text-sm font-medium">Código do script</label>
+          <FieldLabel tooltip="Código completo do anúncio fornecido pela rede (AdSense, etc.). Será inserido no HTML da página na posição selecionada.">
+            Código do script
+          </FieldLabel>
           <textarea
             value={scriptCode}
             onChange={(e) => setScriptCode(e.target.value)}
@@ -123,10 +139,15 @@ export function BannerForm({ banner }: BannerFormProps) {
       )}
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
-        Ativo
+        <span className="flex items-center">
+          Ativo
+          <FieldTooltip content="Quando desmarcado, o banner deixa de aparecer no site imediatamente, mesmo antes da data de expiração." />
+        </span>
       </label>
       <div>
-        <label className="mb-1 block text-sm font-medium">Expira em (opcional)</label>
+        <FieldLabel tooltip="Data e hora opcionais para desativar o banner automaticamente. Deixe em branco se o anúncio não tiver prazo definido.">
+          Expira em (opcional)
+        </FieldLabel>
         <input
           type="datetime-local"
           value={expiresAt}

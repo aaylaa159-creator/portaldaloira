@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { slugify } from '@/lib/slug';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import {
   createCategory,
   updateCategory,
@@ -66,7 +67,9 @@ export function CategoryForm({ category }: CategoryFormProps) {
   return (
     <form onSubmit={handleSubmit} className="max-w-md space-y-4">
       <div>
-        <label className="mb-1 block text-sm font-medium">Nome</label>
+        <FieldLabel tooltip="Nome da editoria exibido no menu de navegação, nos badges das matérias e nas páginas de listagem.">
+          Nome
+        </FieldLabel>
         <input
           required
           value={name}
@@ -78,15 +81,21 @@ export function CategoryForm({ category }: CategoryFormProps) {
         />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Slug</label>
+        <FieldLabel tooltip="Parte da URL das notícias desta editoria (ex: /politica/slug-da-materia). Use apenas letras minúsculas, números e hífens.">
+          Slug
+        </FieldLabel>
         <input required value={slug} onChange={(e) => setSlug(e.target.value)} className={inputClass} />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Cor</label>
+        <FieldLabel tooltip="Cor de destaque da editoria nos badges, links e elementos visuais do site. Escolha uma cor que identifique a seção.">
+          Cor
+        </FieldLabel>
         <input type="color" value={colorCode} onChange={(e) => setColorCode(e.target.value)} className="h-10 w-20" />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium">Ordem no menu</label>
+        <FieldLabel tooltip="Ordem de exibição no menu principal. Números menores aparecem primeiro (ex: 0 = primeira posição, 1 = segunda).">
+          Ordem no menu
+        </FieldLabel>
         <input
           type="number"
           value={displayOrder}

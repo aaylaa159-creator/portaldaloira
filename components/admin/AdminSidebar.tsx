@@ -2,16 +2,42 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { FieldTooltip } from '@/components/admin/FieldTooltip';
 import { createClient } from '@/lib/supabase/client';
 import type { EditorialUser } from '@/lib/auth/editorial';
 
-const NAV = [
-  { href: '/admin', label: 'Dashboard', exact: true },
-  { href: '/admin/posts', label: 'Notícias' },
-  { href: '/admin/categorias', label: 'Editorias' },
-  { href: '/admin/autores', label: 'Autores' },
-  { href: '/admin/banners', label: 'Banners' },
-  { href: '/admin/analytics', label: 'Acessos' },
+const NAV: { href: string; label: string; tooltip: string; exact?: boolean }[] = [
+  {
+    href: '/admin',
+    label: 'Dashboard',
+    tooltip: 'Visão geral com totais de matérias, rascunhos e visualizações.',
+    exact: true,
+  },
+  {
+    href: '/admin/posts',
+    label: 'Notícias',
+    tooltip: 'Criar, editar e publicar matérias do portal.',
+  },
+  {
+    href: '/admin/categorias',
+    label: 'Editorias',
+    tooltip: 'Gerenciar seções do site (Política, Esportes, etc.) e ordem no menu.',
+  },
+  {
+    href: '/admin/autores',
+    label: 'Autores',
+    tooltip: 'Cadastrar jornalistas, colunistas e editores creditados nas matérias.',
+  },
+  {
+    href: '/admin/banners',
+    label: 'Banners',
+    tooltip: 'Configurar anúncios e publicidade nos espaços do site.',
+  },
+  {
+    href: '/admin/analytics',
+    label: 'Acessos',
+    tooltip: 'Relatório de visualizações das matérias e integração com Google Analytics.',
+  },
 ];
 
 interface AdminSidebarProps {
@@ -55,17 +81,24 @@ export function AdminSidebar({ user }: AdminSidebarProps) {
             ? pathname === item.href
             : pathname.startsWith(item.href);
           return (
-            <Link
+            <div
               key={item.href}
-              href={item.href}
-              className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
-                active
-                  ? 'bg-brand-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
+              className={`flex items-center gap-1 rounded-lg pr-2 transition ${
+                active ? 'bg-brand-600' : 'hover:bg-gray-100'
               }`}
             >
-              {item.label}
-            </Link>
+              <Link
+                href={item.href}
+                className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium ${
+                  active ? 'text-white' : 'text-gray-700'
+                }`}
+              >
+                {item.label}
+              </Link>
+              <span className={active ? '[&_button]:border-white/40 [&_button]:bg-white/10 [&_button]:text-white' : ''}>
+                <FieldTooltip content={item.tooltip} />
+              </span>
+            </div>
           );
         })}
       </nav>

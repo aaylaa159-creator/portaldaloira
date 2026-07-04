@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { getViewsAnalytics } from '@/lib/data/admin/analytics';
 import { formatDateShort } from '@/lib/format';
 
@@ -17,15 +18,33 @@ export default async function AdminAnalyticsPage() {
 
       <div className="mb-8 grid gap-4 sm:grid-cols-3">
         <div className="rounded-xl border border-gray-200 bg-white p-5">
-          <p className="text-sm text-gray-500">Total de views (portal)</p>
+          <FieldLabel
+            inline
+            tooltip="Contagem total de visualizações de páginas de matérias registradas internamente pelo portal."
+            className="text-sm text-gray-500"
+          >
+            Total de views (portal)
+          </FieldLabel>
           <p className="font-display text-3xl font-bold">{totalViews.toLocaleString('pt-BR')}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-5">
-          <p className="text-sm text-gray-500">Média por matéria</p>
+          <FieldLabel
+            inline
+            tooltip="Média de visualizações por matéria publicada. Útil para comparar desempenho entre editorias."
+            className="text-sm text-gray-500"
+          >
+            Média por matéria
+          </FieldLabel>
           <p className="font-display text-3xl font-bold">{averageViews.toLocaleString('pt-BR')}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-5">
-          <p className="text-sm text-gray-500">Matérias publicadas</p>
+          <FieldLabel
+            inline
+            tooltip="Quantidade de matérias publicadas consideradas no cálculo de views e médias desta página."
+            className="text-sm text-gray-500"
+          >
+            Matérias publicadas
+          </FieldLabel>
           <p className="font-display text-3xl font-bold">{rows.length}</p>
         </div>
       </div>
@@ -102,10 +121,26 @@ export default async function AdminAnalyticsPage() {
         <table className="w-full text-sm">
           <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
             <tr>
-              <th className="px-4 py-3 text-left">Matéria</th>
-              <th className="px-4 py-3 text-left">Editoria</th>
-              <th className="px-4 py-3 text-left">Views</th>
-              <th className="px-4 py-3 text-left">Publicada</th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Título da matéria publicada no portal.">
+                  Matéria
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Editoria (categoria) à qual a matéria pertence.">
+                  Editoria
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Número de visualizações registradas pelo portal para esta matéria.">
+                  Views
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Data em que a matéria foi publicada no site.">
+                  Publicada
+                </FieldLabel>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y">

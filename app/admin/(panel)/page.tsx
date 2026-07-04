@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { getPostStats } from '@/lib/data/admin/posts';
 import { getTopPosts } from '@/lib/data/admin/analytics';
 
@@ -21,10 +22,26 @@ export default async function AdminDashboardPage() {
       </div>
 
       <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Publicadas" value={stats.published} />
-        <StatCard label="Rascunhos" value={stats.drafts} />
-        <StatCard label="Total de notícias" value={stats.total} />
-        <StatCard label="Visualizações" value={stats.totalViews.toLocaleString('pt-BR')} />
+        <StatCard
+          label="Publicadas"
+          value={stats.published}
+          tooltip="Matérias com status 'Publicado' e visíveis no site para os leitores."
+        />
+        <StatCard
+          label="Rascunhos"
+          value={stats.drafts}
+          tooltip="Matérias salvas mas ainda não publicadas. Ficam invisíveis no site público."
+        />
+        <StatCard
+          label="Total de notícias"
+          value={stats.total}
+          tooltip="Soma de todas as matérias cadastradas, incluindo rascunhos, publicadas e agendadas."
+        />
+        <StatCard
+          label="Visualizações"
+          value={stats.totalViews.toLocaleString('pt-BR')}
+          tooltip="Total acumulado de pageviews registrados pelo portal em todas as matérias publicadas."
+        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -68,10 +85,20 @@ export default async function AdminDashboardPage() {
   );
 }
 
-function StatCard({ label, value }: { label: string; value: string | number }) {
+function StatCard({
+  label,
+  value,
+  tooltip,
+}: {
+  label: string;
+  value: string | number;
+  tooltip: string;
+}) {
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <p className="text-sm text-gray-500">{label}</p>
+      <FieldLabel inline tooltip={tooltip} className="text-sm text-gray-500">
+        {label}
+      </FieldLabel>
       <p className="mt-1 font-display text-3xl font-bold text-gray-900">{value}</p>
     </div>
   );

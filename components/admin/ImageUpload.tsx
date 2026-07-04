@@ -1,6 +1,8 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { FieldLabel } from '@/components/admin/FieldLabel';
+import { FieldTooltip } from '@/components/admin/FieldTooltip';
 import { createClient } from '@/lib/supabase/client';
 
 const MAX_SIZE = 2 * 1024 * 1024;
@@ -11,6 +13,7 @@ interface ImageUploadProps {
   onChange: (url: string) => void;
   folder?: string;
   label?: string;
+  tooltip?: string;
 }
 
 export function ImageUpload({
@@ -18,6 +21,7 @@ export function ImageUpload({
   onChange,
   folder = 'covers',
   label = 'Imagem',
+  tooltip = 'Envie uma imagem (JPG, PNG ou WebP, máx. 2 MB) ou cole a URL de uma imagem já hospedada.',
 }: ImageUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -56,7 +60,7 @@ export function ImageUpload({
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <FieldLabel tooltip={tooltip}>{label}</FieldLabel>
       {value ? (
         <div className="relative overflow-hidden rounded-lg border border-gray-200">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -90,13 +94,19 @@ export function ImageUpload({
           {uploading ? 'Enviando…' : value ? 'Trocar imagem' : 'Enviar imagem'}
         </button>
       </div>
-      <input
-        type="url"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Ou cole a URL da imagem"
-        className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-      />
+      <div>
+        <span className="mb-1 flex items-center text-xs text-gray-500">
+          URL da imagem
+          <FieldTooltip content="Alternativa ao upload: cole aqui o endereço de uma imagem já hospedada na internet ou no Supabase Storage." />
+        </span>
+        <input
+          type="url"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="Ou cole a URL da imagem"
+          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+        />
+      </div>
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
     </div>
   );

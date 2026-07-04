@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { FieldLabel } from '@/components/admin/FieldLabel';
 import { listAllAuthors } from '@/lib/data/admin/authors';
 
 export default async function AdminAuthorsPage() {
@@ -19,10 +20,26 @@ export default async function AdminAuthorsPage() {
         <table className="w-full text-sm">
           <thead className="border-b bg-gray-50 text-xs uppercase text-gray-500">
             <tr>
-              <th className="px-4 py-3 text-left">Nome</th>
-              <th className="px-4 py-3 text-left">Função</th>
-              <th className="px-4 py-3 text-left">Slug</th>
-              <th className="px-4 py-3 text-left">Ações</th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Nome do autor exibido nas matérias e na página de perfil.">
+                  Nome
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Jornalista, colunista ou editor — define como o autor é apresentado no site.">
+                  Função
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Identificador usado na URL da página pública do autor.">
+                  Slug
+                </FieldLabel>
+              </th>
+              <th className="px-4 py-3 text-left">
+                <FieldLabel inline tooltip="Editar os dados do autor ou excluí-lo do portal.">
+                  Ações
+                </FieldLabel>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y">
