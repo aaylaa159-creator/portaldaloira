@@ -18,10 +18,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX   # pageviews no site público (gtag)
-
-# Google Analytics Data API (painel /admin/analytics — somente servidor)
-GA4_PROPERTY_ID=123456789                    # ID numérico da propriedade GA4 (Admin → Configurações)
-GA_SERVICE_KEY_BASE64=                       # JSON da conta de serviço em Base64 (ver README)
+LOOKER_STUDIO_EMBED_URL=                     # URL de incorporação do relatório GA4 (ver README)
 NEXT_PUBLIC_USE_DEV_ONLY=false               # true = pula Supabase em dev
 ```
 
@@ -66,7 +63,7 @@ Na tabela `authors`, defina `user_id` com o UUID do usuário em **Authentication
 | **Editorias** | CRUD de categorias |
 | **Autores** | CRUD de jornalistas/colunistas |
 | **Banners** | Gerenciar espaços publicitários |
-| **Acessos** | Métricas GA4 (usuários, sessões, pageviews) + contador interno por matéria |
+| **Acessos** | Relatório GA4 (Looker Studio) + contador interno por matéria |
 
 ## Google Analytics
 
@@ -77,26 +74,22 @@ Na tabela `authors`, defina `user_id` com o UUID do usuário em **Authentication
 3. Adicione `NEXT_PUBLIC_GA_MEASUREMENT_ID` no `.env.local` e na Vercel
 4. Confirme em **Relatórios → Tempo real** ao navegar no site
 
-### 2. Exibir métricas no painel `/admin/analytics`
+### 2. Exibir métricas no painel `/admin/analytics` (Looker Studio)
 
-O painel lê dados via **Google Analytics Data API** (conta de serviço):
+Sem Google Cloud — basta colar **1 URL** depois de montar o relatório:
 
-1. [Google Cloud Console](https://console.cloud.google.com/) → ative **Google Analytics Data API**
-2. Crie uma **conta de serviço** e baixe a chave JSON
-3. GA4 → **Administrar → Acesso à propriedade** → adicione o e-mail da conta de serviço como **Leitor**
-4. Copie o **ID da propriedade** (número, ex. `512345678`) em Configurações da propriedade
-5. Converta o JSON em Base64 e configure:
+1. Abra [lookerstudio.google.com](https://lookerstudio.google.com) com a conta Google da redação
+2. **Criar → Relatório** → conecte a propriedade **Google Analytics** do portal
+3. Monte o painel (usuários, pageviews, páginas mais vistas, etc.)
+4. **Arquivo → Incorporar relatório** (ou compartilhar → Incorporar)
+5. Copie a URL que começa com `https://lookerstudio.google.com/embed/...`
+6. Configure:
    ```env
-   GA4_PROPERTY_ID=512345678
-   GA_SERVICE_KEY_BASE64=...
+   LOOKER_STUDIO_EMBED_URL=https://lookerstudio.google.com/embed/reporting/SEU-ID/page/SEU-ID
    ```
-6. Adicione as mesmas variáveis na Vercel → **Settings → Environment Variables**
-7. Faça redeploy
+7. Adicione a mesma variável na Vercel → **Settings → Environment Variables** → redeploy
 
-PowerShell (converter chave):
-```powershell
-[Convert]::ToBase64String([IO.File]::ReadAllBytes("C:\caminho\ga4-key.json"))
-```
+O relatório aparece em `/admin/analytics`. O contador interno por matéria (Supabase) continua disponível na seção recolhível abaixo.
 
 ## Estrutura do banco
 
