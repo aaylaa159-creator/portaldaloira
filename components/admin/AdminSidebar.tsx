@@ -34,9 +34,14 @@ const NAV: { href: string; label: string; tooltip: string; exact?: boolean }[] =
     tooltip: 'Configurar anúncios e publicidade nos espaços do site.',
   },
   {
+    href: '/admin/redacao',
+    label: 'Redação',
+    tooltip: 'Mensagens enviadas pelo e-mail redacao@portaldaloira.com.br na página de contato.',
+  },
+  {
     href: '/admin/comercial',
     label: 'Comercial',
-    tooltip: 'Solicitações de mídia kit enviadas pela página Anuncie conosco.',
+    tooltip: 'Mídia kit e mensagens do e-mail comercial@portaldaloira.com.br.',
   },
   {
     href: '/admin/analytics',

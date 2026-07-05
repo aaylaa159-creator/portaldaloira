@@ -42,3 +42,8 @@ export function maskBrazilPhone(value: string): string {
 export function maskMessageInput(value: string, max = 2000): string {
   return value.slice(0, max);
 }
+
+/** Assunto: limita tamanho. */
+export function maskSubjectInput(value: string, max = 200): string {
+  return value.slice(0, max);
+}

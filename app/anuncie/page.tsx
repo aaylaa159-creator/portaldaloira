@@ -4,6 +4,7 @@ import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { InstitutionalShell } from '@/components/common/InstitutionalShell';
 import { MediaKitRequestButton } from '@/components/features/MediaKitRequestButton';
+import { ContactEmailModal } from '@/components/features/ContactEmailModal';
 
 export const metadata: Metadata = {
   title: 'Anuncie conosco',
@@ -87,14 +88,9 @@ export default function AnunciePage() {
           Solicite valores, períodos de campanha e relatórios de veiculação pelo
           e-mail:
         </p>
-        <p>
-          <a
-            href="mailto:comercial@portaldaloira.com.br"
-            className="font-semibold text-brand-700 no-underline hover:text-accent-600"
-          >
-            comercial@portaldaloira.com.br
-          </a>
-        </p>
+        <div className="not-prose">
+          <ContactEmailModal channel="comercial" />
+        </div>
       </InstitutionalShell>
       <Footer />
     </>
