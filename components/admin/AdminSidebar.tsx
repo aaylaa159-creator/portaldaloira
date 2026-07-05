@@ -30,7 +30,7 @@ const NAV: { href: string; label: string; tooltip: string; exact?: boolean }[] =
   },
   {
     href: '/admin/banners',
-    label: 'Banners',
+    label: 'Anúncios',
     tooltip: 'Configurar anúncios e publicidade nos espaços do site.',
   },
   {

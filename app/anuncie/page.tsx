@@ -39,15 +39,12 @@ export default function AnunciePage() {
         title="Anuncie conosco"
         subtitle="Alcance leitores da região"
         actions={
-          <>
-            <MediaKitRequestButton />
-            <Link
-              href="/contato"
-              className="rounded-full border border-brand-200 px-5 py-2.5 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
-            >
-              Fale conosco
-            </Link>
-          </>
+          <Link
+            href="/contato"
+            className="rounded-full border border-brand-200 px-5 py-2.5 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
+          >
+            Fale conosco
+          </Link>
         }
       >
         <p>
@@ -79,9 +76,12 @@ export default function AnunciePage() {
 
         <h2>Solicitar mídia kit</h2>
         <p>
-          Clique em <strong>Solicitar mídia kit</strong> acima, preencha nome e empresa e
-          nossa equipe comercial retorna com valores, formatos e o material completo.
+          Preencha nome e empresa no formulário e nossa equipe comercial retorna com
+          valores, formatos e o material completo.
         </p>
+        <div className="not-prose mt-4">
+          <MediaKitRequestButton />
+        </div>
 
         <h2>Comercial</h2>
         <p>

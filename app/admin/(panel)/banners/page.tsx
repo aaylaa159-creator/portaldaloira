@@ -8,12 +8,12 @@ export default async function AdminBannersPage() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-display text-2xl font-bold">Banners</h1>
+        <h1 className="font-display text-2xl font-bold">Anúncios</h1>
         <Link
           href="/admin/banners/novo"
           className="rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white"
         >
-          + Novo banner
+          + Novo anúncio
         </Link>
       </div>
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
@@ -31,12 +31,12 @@ export default async function AdminBannersPage() {
                 </FieldLabel>
               </th>
               <th className="px-4 py-3 text-left">
-                <FieldLabel inline tooltip="Indica se o banner está sendo exibido no site neste momento.">
+                <FieldLabel inline tooltip="Indica se o anúncio está sendo exibido no site neste momento.">
                   Ativo
                 </FieldLabel>
               </th>
               <th className="px-4 py-3 text-left">
-                <FieldLabel inline tooltip="Editar ou excluir o banner selecionado.">
+                <FieldLabel inline tooltip="Editar ou excluir o anúncio selecionado.">
                   Ações
                 </FieldLabel>
               </th>

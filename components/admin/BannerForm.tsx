@@ -71,7 +71,7 @@ export function BannerForm({ banner }: BannerFormProps) {
   }
 
   async function handleDelete() {
-    if (!banner || !confirm('Excluir este banner?')) return;
+    if (!banner || !confirm('Excluir este anúncio?')) return;
     const result = await deleteBanner(banner.id);
     if ('error' in result && result.error) {
       setError(result.error);
@@ -100,7 +100,7 @@ export function BannerForm({ banner }: BannerFormProps) {
         </select>
       </div>
       <div>
-        <FieldLabel tooltip="Imagem: banner estático com link ao clicar. Script: código HTML/JS de redes de anúncio (Google AdSense, etc.) injetado no espaço reservado.">
+        <FieldLabel tooltip="Imagem: anúncio estático com link ao clicar. Script: código HTML/JS de redes de anúncio (Google AdSense, etc.) injetado no espaço reservado.">
           Tipo
         </FieldLabel>
         <select value={type} onChange={(e) => setType(e.target.value as AdType)} className={inputClass}>
@@ -114,11 +114,11 @@ export function BannerForm({ banner }: BannerFormProps) {
             value={imageUrl}
             onChange={setImageUrl}
             folder="banners"
-            label="Imagem do banner"
+            label="Imagem do anúncio"
             tooltip="Arquivo visual do anúncio. Respeite as dimensões do espaço escolhido (ex: 728×90 para topo, 300×250 para sidebar)."
           />
           <div>
-            <FieldLabel tooltip="Endereço para onde o leitor é direcionado ao clicar no banner. Deve ser uma URL completa (https://...).">
+            <FieldLabel tooltip="Endereço para onde o leitor é direcionado ao clicar no anúncio. Deve ser uma URL completa (https://...).">
               URL de destino
             </FieldLabel>
             <input type="url" value={targetUrl} onChange={(e) => setTargetUrl(e.target.value)} className={inputClass} />
@@ -141,11 +141,11 @@ export function BannerForm({ banner }: BannerFormProps) {
         <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />
         <span className="flex items-center">
           Ativo
-          <FieldTooltip content="Quando desmarcado, o banner deixa de aparecer no site imediatamente, mesmo antes da data de expiração." />
+          <FieldTooltip content="Quando desmarcado, o anúncio deixa de aparecer no site imediatamente, mesmo antes da data de expiração." />
         </span>
       </label>
       <div>
-        <FieldLabel tooltip="Data e hora opcionais para desativar o banner automaticamente. Deixe em branco se o anúncio não tiver prazo definido.">
+        <FieldLabel tooltip="Data e hora opcionais para desativar o anúncio automaticamente. Deixe em branco se o anúncio não tiver prazo definido.">
           Expira em (opcional)
         </FieldLabel>
         <input
