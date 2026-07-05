@@ -73,6 +73,9 @@ export interface PostSummary {
 export type AdPlacement =
   | "header_top"
   | "sidebar_right"
+  | "sidebar_skyscraper"
+  | "sidebar_card_1"
+  | "sidebar_card_2"
   | "in_content_1"
   | "in_content_2"
   | "popup_overlay";

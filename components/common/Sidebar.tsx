@@ -18,8 +18,13 @@ export async function Sidebar({ mostRead, opinion }: SidebarProps) {
   ]);
 
   return (
-    <aside className="flex flex-col gap-8" aria-label="Barra lateral">
-      <AdBanner placement="sidebar_right" />
+    <aside
+      className="flex flex-col gap-6 lg:sticky lg:top-6 lg:self-start"
+      aria-label="Barra lateral"
+    >
+      <AdBanner placement="sidebar_skyscraper" />
+      <AdBanner placement="sidebar_card_1" />
+      <AdBanner placement="sidebar_card_2" />
 
       {mostReadPosts.length > 0 ? (
         <section aria-label="Mais lidas">

@@ -17,8 +17,11 @@ const inputClass =
   'w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none focus:ring-1 focus:ring-brand-600';
 
 const PLACEMENTS: { value: AdPlacement; label: string }[] = [
-  { value: 'header_top', label: 'Topo (leaderboard)' },
-  { value: 'sidebar_right', label: 'Sidebar direita' },
+  { value: 'header_top', label: 'Topo (728×90)' },
+  { value: 'sidebar_skyscraper', label: 'Sidebar — banner alto (300×600)' },
+  { value: 'sidebar_card_1', label: 'Sidebar — card 1 (300×300)' },
+  { value: 'sidebar_card_2', label: 'Sidebar — card 2 (300×300)' },
+  { value: 'sidebar_right', label: 'Sidebar legado (300×250)' },
   { value: 'in_content_1', label: 'Dentro do conteúdo 1' },
   { value: 'in_content_2', label: 'Dentro do conteúdo 2' },
   { value: 'popup_overlay', label: 'Popup overlay' },
@@ -84,7 +87,7 @@ export function BannerForm({ banner }: BannerFormProps) {
   return (
     <form onSubmit={handleSubmit} className="max-w-lg space-y-4">
       <div>
-        <FieldLabel tooltip="Local onde o anúncio aparece no site: topo (728×90), sidebar (300×250), dentro do texto da matéria ou popup sobre a página.">
+        <FieldLabel tooltip="Local onde o anúncio aparece: topo (728×90), sidebar alto (300×600), cards laterais (300×300), dentro da matéria ou popup.">
           Posição
         </FieldLabel>
         <select
@@ -115,7 +118,7 @@ export function BannerForm({ banner }: BannerFormProps) {
             onChange={setImageUrl}
             folder="banners"
             label="Imagem do anúncio"
-            tooltip="Arquivo visual do anúncio. Respeite as dimensões do espaço escolhido (ex: 728×90 para topo, 300×250 para sidebar)."
+            tooltip="Arquivo visual do anúncio. Respeite as dimensões do espaço (728×90 topo, 300×600 sidebar alto, 300×300 cards laterais)."
           />
           <div>
             <FieldLabel tooltip="Endereço para onde o leitor é direcionado ao clicar no anúncio. Deve ser uma URL completa (https://...).">

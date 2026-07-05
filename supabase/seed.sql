@@ -176,7 +176,11 @@ insert into public.ad_banners (placement, type, image_url, target_url, active) v
   ('header_top',    'image', 'https://picsum.photos/seed/ad-leaderboard-1/728/90',  'https://example.com', true),
   ('header_top',    'image', 'https://picsum.photos/seed/ad-leaderboard-2/728/90',  'https://example.com', true),
   ('header_top',    'image', 'https://picsum.photos/seed/ad-leaderboard-3/728/90',  'https://example.com', true),
-  ('sidebar_right', 'image', 'https://picsum.photos/seed/ad-sidebar-1/300/250',     'https://example.com', true),
-  ('sidebar_right', 'image', 'https://picsum.photos/seed/ad-sidebar-2/300/250',     'https://example.com', true),
+  ('sidebar_skyscraper', 'image', 'https://picsum.photos/seed/ad-skyscraper-1/300/600', 'https://example.com', true),
+  ('sidebar_skyscraper', 'image', 'https://picsum.photos/seed/ad-skyscraper-2/300/600', 'https://example.com', true),
+  ('sidebar_card_1',     'image', 'https://picsum.photos/seed/ad-sidebar-card-1a/300/300', 'https://example.com', true),
+  ('sidebar_card_1',     'image', 'https://picsum.photos/seed/ad-sidebar-card-1b/300/300', 'https://example.com', true),
+  ('sidebar_card_2',     'image', 'https://picsum.photos/seed/ad-sidebar-card-2a/300/300', 'https://example.com', true),
+  ('sidebar_card_2',     'image', 'https://picsum.photos/seed/ad-sidebar-card-2b/300/300', 'https://example.com', true),
   ('in_content_1',  'image', 'https://picsum.photos/seed/ad-content1/728/90',     'https://example.com', true),
   ('in_content_2',  'image', 'https://picsum.photos/seed/ad-content2/728/90',     'https://example.com', true);

@@ -56,7 +56,16 @@ create table if not exists public.posts (
 create table if not exists public.ad_banners (
   id uuid primary key default gen_random_uuid(),
   placement text not null
-    check (placement in ('header_top', 'sidebar_right', 'in_content_1', 'in_content_2', 'popup_overlay')),
+    check (placement in (
+      'header_top',
+      'sidebar_right',
+      'sidebar_skyscraper',
+      'sidebar_card_1',
+      'sidebar_card_2',
+      'in_content_1',
+      'in_content_2',
+      'popup_overlay'
+    )),
   type text not null default 'image'
     check (type in ('image', 'script')),
   image_url text,

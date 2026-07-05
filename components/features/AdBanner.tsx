@@ -15,13 +15,22 @@ const PLACEMENT_SIZES: Record<
 > = {
   header_top: { width: 728, height: 90, minHeightClass: 'min-h-[90px]' },
   sidebar_right: { width: 300, height: 250, minHeightClass: 'min-h-[250px]' },
+  sidebar_skyscraper: { width: 300, height: 600, minHeightClass: 'min-h-[600px]' },
+  sidebar_card_1: { width: 300, height: 300, minHeightClass: 'min-h-[300px]' },
+  sidebar_card_2: { width: 300, height: 300, minHeightClass: 'min-h-[300px]' },
   in_content_1: { width: 728, height: 90, minHeightClass: 'min-h-[90px]' },
   in_content_2: { width: 728, height: 90, minHeightClass: 'min-h-[90px]' },
   popup_overlay: { width: 400, height: 400, minHeightClass: 'min-h-[400px]' },
 };
 
 /** Posições que rotacionam vários banners em carrossel (estilo portal de notícias). */
-const CAROUSEL_PLACEMENTS: AdPlacement[] = ['header_top', 'sidebar_right'];
+const CAROUSEL_PLACEMENTS: AdPlacement[] = [
+  'header_top',
+  'sidebar_right',
+  'sidebar_skyscraper',
+  'sidebar_card_1',
+  'sidebar_card_2',
+];
 
 const DEMO_SLIDES: Record<AdPlacement, AdBannerSlide[]> = {
   header_top: [
@@ -50,6 +59,42 @@ const DEMO_SLIDES: Record<AdPlacement, AdBannerSlide[]> = {
     {
       id: 'demo-sidebar-2',
       image_url: 'https://picsum.photos/seed/ad-sidebar-2/300/250',
+      target_url: 'https://example.com',
+    },
+  ],
+  sidebar_skyscraper: [
+    {
+      id: 'demo-skyscraper-1',
+      image_url: 'https://picsum.photos/seed/ad-skyscraper-1/300/600',
+      target_url: 'https://example.com',
+    },
+    {
+      id: 'demo-skyscraper-2',
+      image_url: 'https://picsum.photos/seed/ad-skyscraper-2/300/600',
+      target_url: 'https://example.com',
+    },
+  ],
+  sidebar_card_1: [
+    {
+      id: 'demo-sidebar-card-1a',
+      image_url: 'https://picsum.photos/seed/ad-sidebar-card-1a/300/300',
+      target_url: 'https://example.com',
+    },
+    {
+      id: 'demo-sidebar-card-1b',
+      image_url: 'https://picsum.photos/seed/ad-sidebar-card-1b/300/300',
+      target_url: 'https://example.com',
+    },
+  ],
+  sidebar_card_2: [
+    {
+      id: 'demo-sidebar-card-2a',
+      image_url: 'https://picsum.photos/seed/ad-sidebar-card-2a/300/300',
+      target_url: 'https://example.com',
+    },
+    {
+      id: 'demo-sidebar-card-2b',
+      image_url: 'https://picsum.photos/seed/ad-sidebar-card-2b/300/300',
       target_url: 'https://example.com',
     },
   ],

@@ -20,9 +20,14 @@ const AD_SPACES = [
     description: 'Banner principal visível na home e nas páginas de notícias.',
   },
   {
-    name: 'Sidebar',
-    size: '300 × 250 px',
-    description: 'Bloco lateral ao lado das matérias e listagens.',
+    name: 'Sidebar — banner alto',
+    size: '300 × 600 px',
+    description: 'Formato vertical ao lado das editorias e matérias.',
+  },
+  {
+    name: 'Sidebar — cards',
+    size: '300 × 300 px (2 espaços)',
+    description: 'Blocos laterais com altura equivalente aos cards de notícias.',
   },
   {
     name: 'Dentro da matéria',
