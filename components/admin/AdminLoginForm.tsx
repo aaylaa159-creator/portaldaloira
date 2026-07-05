@@ -169,10 +169,6 @@ export function AdminLoginForm() {
       >
         {loading ? 'Entrando…' : 'Entrar'}
       </button>
-      <p className="text-center text-xs leading-relaxed text-gray-500">
-        Digite e-mail e senha a cada acesso. Remova credenciais salvas do navegador se o Chrome
-        preencher sozinho (ícone de chave na barra de endereço).
-      </p>
     </form>
   );
 }

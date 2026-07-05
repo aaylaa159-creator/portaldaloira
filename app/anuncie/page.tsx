@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { InstitutionalShell } from '@/components/common/InstitutionalShell';
+import { MediaKitRequestButton } from '@/components/features/MediaKitRequestButton';
 
 export const metadata: Metadata = {
   title: 'Anuncie conosco',
@@ -38,12 +39,7 @@ export default function AnunciePage() {
         subtitle="Alcance leitores da região"
         actions={
           <>
-            <a
-              href="mailto:comercial@portaldaloira.com.br"
-              className="rounded-full bg-accent-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-700"
-            >
-              Solicitar mídia kit
-            </a>
+            <MediaKitRequestButton />
             <Link
               href="/contato"
               className="rounded-full border border-brand-200 px-5 py-2.5 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
@@ -78,6 +74,12 @@ export default function AnunciePage() {
           Trabalhamos com banners em imagem (JPG, PNG, WebP) e, mediante
           avaliação, códigos de parceiros homologados. Todos os anúncios passam
           por aprovação da redação antes de veicular.
+        </p>
+
+        <h2>Solicitar mídia kit</h2>
+        <p>
+          Clique em <strong>Solicitar mídia kit</strong> acima, preencha nome e empresa e
+          nossa equipe comercial retorna com valores, formatos e o material completo.
         </p>
 
         <h2>Comercial</h2>

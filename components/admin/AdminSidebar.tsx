@@ -34,6 +34,11 @@ const NAV: { href: string; label: string; tooltip: string; exact?: boolean }[] =
     tooltip: 'Configurar anúncios e publicidade nos espaços do site.',
   },
   {
+    href: '/admin/comercial',
+    label: 'Comercial',
+    tooltip: 'Solicitações de mídia kit enviadas pela página Anuncie conosco.',
+  },
+  {
     href: '/admin/analytics',
     label: 'Acessos',
     tooltip: 'Relatório de visualizações das matérias publicadas no portal.',
